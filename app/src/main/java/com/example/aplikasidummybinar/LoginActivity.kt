@@ -1,6 +1,8 @@
 package com.example.aplikasidummybinar
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -12,11 +14,15 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
     
     lateinit var binding: ActivityLoginBinding
+
+    lateinit var sharedPreferences: SharedPreferences
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreferences = this.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE)
 
         binding.btnLogin.setOnClickListener {
             if (binding.etEmailLogin.text.isNullOrEmpty() && binding.etPasswordLogin.text.isNullOrEmpty()) {
@@ -35,6 +41,10 @@ class LoginActivity : AppCompatActivity() {
                             val body = response.body()
                             val code = response.code()
                             if (code == 200) {
+                                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                                editor.putString("username", binding.etEmailLogin.text.toString())
+                                editor.putString("token", body?.data?.token)
+                                editor.apply()
                                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                 startActivity(intent)
                             } else {
@@ -49,5 +59,10 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
+
+        binding.btnGoRegister.setOnClickListener {
+            startActivity(Intent(this,RegisterActivity::class.java))
+        }
+
     }
 }

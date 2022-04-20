@@ -32,4 +32,11 @@
         android:text="Register"
         android:layout_marginTop="8dp"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnGoLogin"
+        android:text="Login"
+        android:layout_marginTop="8dp"/>
+
 </LinearLayout>

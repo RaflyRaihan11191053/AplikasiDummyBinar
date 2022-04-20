@@ -53,5 +53,9 @@ class RegisterActivity : AppCompatActivity() {
 
         }
 
+        binding.btnGoLogin.setOnClickListener {
+            startActivity(Intent(this,LoginActivity::class.java))
+        }
+
     }
 }
